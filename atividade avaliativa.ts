@@ -247,3 +247,116 @@ testeFormas.executarTeste(quadrado, triangulo)
 testeFormas.executarTeste(quadrado, outroQuadrado)
 testeFormas.executarTeste(triangulo, outroTriangulo)
 
+10° questão
+
+interface Tributavel {
+  calcularTributo(): number;
+}
+
+class Conta {
+  private nome: string
+  private saldo: number
+
+  constructor(nome: string, saldo: number) {
+    this.nome = nome
+    this.saldo = saldo
+  }
+
+  getNome(): string {
+    return this.nome
+  }
+
+  setNome(nome: string): void {
+    this.nome = nome
+  }
+
+  getSaldo(): number {
+    return this.saldo
+  }
+
+  setSaldo(saldo: number): void {
+    this.saldo = saldo
+  }
+}
+
+class ContaCorrente extends Conta implements Tributavel {
+  constructor(nome: string, saldo: number) {
+    super(nome, saldo)
+  }
+
+  calcularTributo(): number {
+    return 0.1 * this.getSaldo()
+  }
+}
+
+class SeguroDeVida implements Tributavel {
+  private valorSeguro: number
+
+  constructor(valorSeguro: number) {
+    this.valorSeguro = valorSeguro
+  }
+
+  calcularTributo(): number {
+    return 50.00
+  }
+}
+
+
+
+11° questão
+
+interface Tributavel {
+  calcularTributo(): number
+}
+
+class AuditoriaInterna {
+  private tributaveis: Tributavel[] = []
+
+  adicionar(tributavel: Tributavel): void {
+    this.tributaveis.push(tributavel)
+  }
+
+  calcularTributos(): number {
+    return this.tributaveis.reduce((total, tributavel) => total + tributavel.calcularTributo(), 0)
+  }
+}
+
+class ContaCorrente implements Tributavel {
+  private saldo: number
+
+  constructor(saldo: number) {
+    this.saldo = saldo
+  }
+
+  calcularTributo(): number {
+    return 0.1 * this.saldo
+  }
+}
+
+class SeguroDeVida implements Tributavel {
+  private valorSeguro: number
+
+  constructor(valorSeguro: number) {
+    this.valorSeguro = valorSeguro
+  }
+
+  calcularTributo(): number {
+    return 50.0
+  }
+}
+
+const auditoria = new AuditoriaInterna()
+
+const contaCorrente1 = new ContaCorrente(1000)
+const contaCorrente2 = new ContaCorrente(2000)
+const seguroDeVida1 = new SeguroDeVida(50000)
+const seguroDeVida2 = new SeguroDeVida(75000)
+
+auditoria.adicionar(contaCorrente1)
+auditoria.adicionar(contaCorrente2)
+auditoria.adicionar(seguroDeVida1)
+auditoria.adicionar(seguroDeVida2)
+
+const resultado = auditoria.calcularTributos()
+
+console.log(`Resultado da auditoria: ${resultado}`)
